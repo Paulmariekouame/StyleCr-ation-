@@ -143,8 +143,8 @@ function updateCartUI() {
     .join("")
 
   const total = calculateTotal()
-  cartTotal.textContent = ${total.toFixed(2)}€
-  if (cartTotalFinal) cartTotalFinal.textContent = ${total.toFixed(2)}€
+  cartTotal.textContent = `${total.toFixed(2)}€`
+  if (cartTotalFinal) cartTotalFinal.textContent = `${total.toFixed(2)}€`
 }
 
 // Filter products
@@ -208,8 +208,8 @@ function updateCheckoutSummary() {
     .join("")
 
   const total = calculateTotal()
-  subtotal.textContent = ${total.toFixed(2)}€
-  checkoutTotal.textContent = ${total.toFixed(2)}€
+  subtotal.textContent = `${total.toFixed(2)}€`
+  checkoutTotal.textContent = `${total.toFixed(2)}€`
 }
 
 // Process order
@@ -220,7 +220,7 @@ function processOrder() {
     cart: cart,
     total: calculateTotal(),
     orderDate: new Date().toLocaleString("fr-FR"),
-    orderNumber: CMD${Date.now()},
+    orderNumber: `CMD${Date.now()}`,
   }
 
   console.log("[v0] Order data:", orderData)
@@ -289,9 +289,9 @@ function generatePDF(orderData) {
   doc.setTextColor(0, 0, 0)
   doc.setFontSize(11)
   doc.setFont(undefined, "bold")
-  doc.text(Numéro de commande: ${orderData.orderNumber}, 20, 65)
+  doc.text(`Numéro de commande: ${orderData.orderNumber}`, 20, 65)
   doc.setFont(undefined, "normal")
-  doc.text(Date: ${orderData.orderDate}, 20, 72)
+  doc.text(`Date: ${orderData.orderDate}`, 20, 72)
 
   // Order Items Header
   doc.setFontSize(16)
@@ -322,8 +322,8 @@ function generatePDF(orderData) {
 
     doc.text(item.name, 20, yPos)
     doc.text(item.quantity.toString(), 135, yPos)
-    doc.text(${item.price.toFixed(2)}€, 155, yPos)
-    doc.text(${(item.price * item.quantity).toFixed(2)}€, 175, yPos)
+    doc.text(`${item.price.toFixed(2)}€`, 155, yPos)
+    doc.text(`${(item.price * item.quantity).toFixed(2)}€`, 175, yPos)
     yPos += 12
   })
 
@@ -339,7 +339,7 @@ function generatePDF(orderData) {
   doc.text("TOTAL:", 130, yPos)
   doc.setTextColor(231, 76, 60)
   doc.setFontSize(16)
-  doc.text(${orderData.total.toFixed(2)}€, 175, yPos)
+  doc.text(`${orderData.total.toFixed(2)}€`, 175, yPos)
 
   // Footer
   yPos += 25
@@ -358,7 +358,7 @@ function generatePDF(orderData) {
   doc.rect(10, 10, 190, 277)
 
   // Save PDF
-  doc.save(Recu_${orderData.orderNumber}.pdf)
+  doc.save(`Recu_${orderData.orderNumber}.pdf`)
 
   console.log("[v0] PDF generated successfully")
 }
@@ -375,9 +375,9 @@ function sendToGoogleForms(orderData) {
     nom: orderData.fullName,
     email: orderData.email,
     telephone: orderData.phone,
-    adresse: ${orderData.address}, ${orderData.postalCode} ${orderData.city}, ${orderData.country},
-    articles: orderData.cart.map((item) => ${item.name} (x${item.quantity})).join(", "),
-    total: ${orderData.total.toFixed(2)}€,
+    adresse: `${orderData.address}, ${orderData.postalCode} ${orderData.city}, ${orderData.country}`,
+    articles: orderData.cart.map((item) => `${item.name} (x${item.quantity})`).join(", "),
+    total: `${orderData.total.toFixed(2)}€`,
     notes: orderData.notes,
     date: orderData.orderDate,
   }
@@ -423,11 +423,11 @@ function showNotification(message, type = "success") {
   const bgColor = type === "success" ? "success" : type === "warning" ? "warning" : "danger"
   const icon = type === "success" ? "check-circle" : type === "warning" ? "exclamation-triangle" : "times-circle"
 
-  notification.className = alert alert-${bgColor} position-fixed top-0 start-50 translate-middle-x mt-3 shadow-lg
+  notification.className = `alert alert-${bgColor} position-fixed top-0 start-50 translate-middle-x mt-3 shadow-lg`
   notification.style.zIndex = "9999"
   notification.style.minWidth = "300px"
   notification.style.animation = "slideDown 0.3s ease"
-  notification.innerHTML = <i class="fas fa-${icon} me-2"></i>${message}
+  notification.innerHTML = `<i class="fas fa-${icon} me-2"></i>${message}`
 
   document.body.appendChild(notification)
 
