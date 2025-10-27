@@ -1,0 +1,452 @@
+// Cart Management
+let cart = []
+const GOOGLE_FORMS_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSexuW-l1BTCP97p1tQ-Tmry9Xdz0FbpjzPYANCPWOSBmWu2UA/viewform?usp=header"
+
+// Load cart from localStorage on page load
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("[v0] Initializing application...")
+  loadCart()
+  updateCartUI()
+  setupEventListeners()
+  console.log("[v0] Application initialized successfully")
+})
+
+// Setup Event Listeners
+function setupEventListeners() {
+  document.querySelectorAll(".add-to-cart").forEach((button) => {
+    button.addEventListener("click", function () {
+      const product = {
+        id: this.dataset.id,
+        name: this.dataset.name,
+        price: Number.parseFloat(this.dataset.price),
+        image: this.dataset.image,
+        quantity: 1,
+      }
+      addToCart(product)
+    })
+  })
+
+  document.querySelectorAll(".btn-filter").forEach((button) => {
+    button.addEventListener("click", function () {
+      document.querySelectorAll(".btn-filter").forEach((btn) => btn.classList.remove("active"))
+      this.classList.add("active")
+      filterProducts(this.dataset.filter)
+    })
+  })
+
+  const checkoutBtn = document.getElementById("checkoutBtn")
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener("click", () => {
+      console.log("[v0] Checkout button clicked")
+      if (cart.length === 0) {
+        showNotification("Votre panier est vide!", "warning")
+        return
+      }
+      openCheckout()
+    })
+  }
+
+  const proceedBtn = document.getElementById("proceedToPaymentBtn")
+  if (proceedBtn) {
+    proceedBtn.addEventListener("click", () => {
+      console.log("[v0] Proceed to payment clicked")
+      processOrder()
+    })
+  }
+}
+
+// Add product to cart
+function addToCart(product) {
+  const existingProduct = cart.find((item) => item.id === product.id)
+
+  if (existingProduct) {
+    existingProduct.quantity++
+  } else {
+    cart.push(product)
+  }
+
+  saveCart()
+  updateCartUI()
+  showNotification("Produit ajouté au panier!")
+}
+
+// Remove product from cart
+function removeFromCart(productId) {
+  cart = cart.filter((item) => item.id !== productId)
+  saveCart()
+  updateCartUI()
+}
+
+// Update product quantity
+function updateQuantity(productId, change) {
+  const product = cart.find((item) => item.id === productId)
+  if (product) {
+    product.quantity += change
+    if (product.quantity <= 0) {
+      removeFromCart(productId)
+    } else {
+      saveCart()
+      updateCartUI()
+    }
+  }
+}
+
+// Calculate cart total
+function calculateTotal() {
+  return cart.reduce((total, item) => total + item.price * item.quantity, 0)
+}
+
+// Update cart UI
+function updateCartUI() {
+  const cartCount = document.getElementById("cartCount")
+  const cartItems = document.getElementById("cartItems")
+  const cartTotal = document.getElementById("cartTotal")
+  const cartTotalFinal = document.getElementById("cartTotalFinal")
+  const emptyCartMessage = document.getElementById("emptyCartMessage")
+
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0)
+  cartCount.textContent = totalItems
+
+  if (cart.length === 0) {
+    cartItems.innerHTML = ""
+    emptyCartMessage.style.display = "block"
+    cartTotal.textContent = "0€"
+    if (cartTotalFinal) cartTotalFinal.textContent = "0€"
+    return
+  }
+
+  emptyCartMessage.style.display = "none"
+
+  cartItems.innerHTML = cart
+    .map(
+      (item) => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-price">${item.price}€</div>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="updateQuantity('${item.id}', -1)">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span class="quantity-display">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="updateQuantity('${item.id}', 1)">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <i class="fas fa-trash remove-btn" onclick="removeFromCart('${item.id}')"></i>
+                </div>
+            `,
+    )
+    .join("")
+
+  const total = calculateTotal()
+  cartTotal.textContent = ${total.toFixed(2)}€
+  if (cartTotalFinal) cartTotalFinal.textContent = ${total.toFixed(2)}€
+}
+
+// Filter products
+function filterProducts(category) {
+  const products = document.querySelectorAll(".product-item")
+
+  products.forEach((product) => {
+    if (category === "all" || product.dataset.category === category) {
+      product.style.display = "block"
+      setTimeout(() => {
+        product.style.opacity = "1"
+        product.style.transform = "translateY(0)"
+      }, 10)
+    } else {
+      product.style.opacity = "0"
+      product.style.transform = "translateY(20px)"
+      setTimeout(() => {
+        product.style.display = "none"
+      }, 300)
+    }
+  })
+}
+
+function openCheckout() {
+  console.log("[v0] Opening checkout modal")
+  const cartModalEl = document.getElementById("cartModal")
+  const cartModal = window.bootstrap.Modal.getInstance(cartModalEl)
+  if (cartModal) {
+    cartModal.hide()
+  }
+
+  setTimeout(() => {
+    const checkoutModalEl = document.getElementById("checkoutModal")
+    const checkoutModal = new window.bootstrap.Modal(checkoutModalEl)
+    checkoutModal.show()
+    updateCheckoutSummary()
+  }, 300)
+}
+
+// Update checkout summary
+function updateCheckoutSummary() {
+  const checkoutSummary = document.getElementById("checkoutSummary")
+  const checkoutTotal = document.getElementById("checkoutTotal")
+  const subtotal = document.getElementById("subtotal")
+
+  checkoutSummary.innerHTML = cart
+    .map(
+      (item) => `
+        <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}">
+            <div class="cart-item-details">
+                <div class="cart-item-title">${item.name}</div>
+                <div class="cart-item-price">${item.price}€ × ${item.quantity}</div>
+            </div>
+            <div class="text-end">
+                <strong>${(item.price * item.quantity).toFixed(2)}€</strong>
+            </div>
+        </div>
+    `,
+    )
+    .join("")
+
+  const total = calculateTotal()
+  subtotal.textContent = ${total.toFixed(2)}€
+  checkoutTotal.textContent = ${total.toFixed(2)}€
+}
+
+// Process order
+function processOrder() {
+  console.log("[v0] Processing order...")
+
+  const orderData = {
+    cart: cart,
+    total: calculateTotal(),
+    orderDate: new Date().toLocaleString("fr-FR"),
+    orderNumber: CMD${Date.now()},
+  }
+
+  console.log("[v0] Order data:", orderData)
+
+  generatePDF(orderData)
+
+  const checkoutModalEl = document.getElementById("checkoutModal")
+  const checkoutModal = window.bootstrap.Modal.getInstance(checkoutModalEl)
+  if (checkoutModal) {
+    checkoutModal.hide()
+  }
+
+  setTimeout(() => {
+    const successModalEl = document.getElementById("successModal")
+    const successModal = new window.bootstrap.Modal(successModalEl)
+    successModal.show()
+
+    setTimeout(() => {
+      console.log("[v0] Opening Google Forms for payment")
+
+      // Open Google Forms in new tab
+      window.open(GOOGLE_FORMS_URL, "_blank")
+
+      // Close success modal
+      successModal.hide()
+
+      setTimeout(() => {
+        const confirmationModalEl = document.getElementById("confirmationModal")
+        const confirmationModal = new window.bootstrap.Modal(confirmationModalEl)
+        confirmationModal.show()
+
+        cart = []
+        saveCart()
+        updateCartUI()
+
+        console.log("[v0] Order completed successfully")
+      }, 500)
+    }, 2000)
+  }, 300)
+}
+
+// Generate PDF Receipt
+function generatePDF(orderData) {
+  console.log("[v0] Generating PDF receipt...")
+
+  const { jsPDF } = window.jspdf
+  const doc = new jsPDF()
+
+  // Header with gradient effect
+  doc.setFillColor(44, 62, 80)
+  doc.rect(0, 0, 210, 45, "F")
+
+  doc.setTextColor(255, 255, 255)
+  doc.setFontSize(28)
+  doc.setFont(undefined, "bold")
+  doc.text("Style Créations", 105, 20, { align: "center" })
+
+  doc.setFontSize(14)
+  doc.setFont(undefined, "normal")
+  doc.text("Reçu de Commande", 105, 32, { align: "center" })
+
+  // Order Info Box
+  doc.setFillColor(248, 249, 250)
+  doc.rect(15, 55, 180, 25, "F")
+
+  doc.setTextColor(0, 0, 0)
+  doc.setFontSize(11)
+  doc.setFont(undefined, "bold")
+  doc.text(Numéro de commande: ${orderData.orderNumber}, 20, 65)
+  doc.setFont(undefined, "normal")
+  doc.text(Date: ${orderData.orderDate}, 20, 72)
+
+  // Order Items Header
+  doc.setFontSize(16)
+  doc.setFont(undefined, "bold")
+  doc.text("Détails de la Commande", 20, 95)
+
+  // Table Header
+  doc.setFillColor(44, 62, 80)
+  doc.rect(15, 102, 180, 10, "F")
+  doc.setTextColor(255, 255, 255)
+  doc.setFontSize(10)
+  doc.setFont(undefined, "bold")
+  doc.text("Article", 20, 109)
+  doc.text("Qté", 130, 109)
+  doc.text("Prix Unit.", 150, 109)
+  doc.text("Total", 175, 109)
+
+  // Order Items
+  let yPos = 120
+  doc.setTextColor(0, 0, 0)
+  doc.setFont(undefined, "normal")
+
+  orderData.cart.forEach((item, index) => {
+    if (index % 2 === 0) {
+      doc.setFillColor(248, 249, 250)
+      doc.rect(15, yPos - 6, 180, 10, "F")
+    }
+
+    doc.text(item.name, 20, yPos)
+    doc.text(item.quantity.toString(), 135, yPos)
+    doc.text(${item.price.toFixed(2)}€, 155, yPos)
+    doc.text(${(item.price * item.quantity).toFixed(2)}€, 175, yPos)
+    yPos += 12
+  })
+
+  // Total Section
+  yPos += 10
+  doc.setDrawColor(44, 62, 80)
+  doc.setLineWidth(0.5)
+  doc.line(15, yPos, 195, yPos)
+
+  yPos += 10
+  doc.setFontSize(14)
+  doc.setFont(undefined, "bold")
+  doc.text("TOTAL:", 130, yPos)
+  doc.setTextColor(231, 76, 60)
+  doc.setFontSize(16)
+  doc.text(${orderData.total.toFixed(2)}€, 175, yPos)
+
+  // Footer
+  yPos += 25
+  doc.setFontSize(10)
+  doc.setFont(undefined, "normal")
+  doc.setTextColor(100, 100, 100)
+  doc.text("Merci pour votre confiance!", 105, yPos, { align: "center" })
+  doc.text("Pour toute question, contactez-nous:", 105, yPos + 7, { align: "center" })
+  doc.setTextColor(44, 62, 80)
+  doc.setFont(undefined, "bold")
+  doc.text("contact@stylecreations.com | +33 1 23 45 67 89", 105, yPos + 14, { align: "center" })
+
+  // Border
+  doc.setDrawColor(44, 62, 80)
+  doc.setLineWidth(1)
+  doc.rect(10, 10, 190, 277)
+
+  // Save PDF
+  doc.save(Recu_${orderData.orderNumber}.pdf)
+
+  console.log("[v0] PDF generated successfully")
+}
+
+// Send to Google Forms
+function sendToGoogleForms(orderData) {
+  // Instructions pour configurer Google Forms:
+  // 1. Créez un formulaire Google Forms avec les champs nécessaires
+  // 2. Utilisez Google Apps Script pour créer un endpoint qui reçoit les données
+  // 3. Remplacez l'URL ci-dessous par votre URL de script
+
+  // Préparer les données pour l'envoi
+  const formattedData = {
+    nom: orderData.fullName,
+    email: orderData.email,
+    telephone: orderData.phone,
+    adresse: ${orderData.address}, ${orderData.postalCode} ${orderData.city}, ${orderData.country},
+    articles: orderData.cart.map((item) => ${item.name} (x${item.quantity})).join(", "),
+    total: ${orderData.total.toFixed(2)}€,
+    notes: orderData.notes,
+    date: orderData.orderDate,
+  }
+
+  // Envoyer les données (décommentez quand vous avez configuré Google Forms)
+  /*
+    fetch(GOOGLE_FORMS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formattedData)
+    })
+    .then(() => {
+        console.log('Commande envoyée à Google Forms');
+    })
+    .catch(error => {
+        console.error('Erreur lors de l\'envoi:', error);
+    });
+    */
+
+  console.log("Données de commande:", formattedData)
+  console.log("Configurez Google Forms pour activer l'envoi automatique")
+}
+
+// Save cart to localStorage
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart))
+}
+
+// Load cart from localStorage
+function loadCart() {
+  const savedCart = localStorage.getItem("cart")
+  if (savedCart) {
+    cart = JSON.parse(savedCart)
+  }
+}
+
+// Show notification
+function showNotification(message, type = "success") {
+  const notification = document.createElement("div")
+  const bgColor = type === "success" ? "success" : type === "warning" ? "warning" : "danger"
+  const icon = type === "success" ? "check-circle" : type === "warning" ? "exclamation-triangle" : "times-circle"
+
+  notification.className = alert alert-${bgColor} position-fixed top-0 start-50 translate-middle-x mt-3 shadow-lg
+  notification.style.zIndex = "9999"
+  notification.style.minWidth = "300px"
+  notification.style.animation = "slideDown 0.3s ease"
+  notification.innerHTML = <i class="fas fa-${icon} me-2"></i>${message}
+
+  document.body.appendChild(notification)
+
+  setTimeout(() => {
+    notification.style.animation = "slideUp 0.3s ease"
+    setTimeout(() => notification.remove(), 300)
+  }, 3000)
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener("click", function (e) {
+    e.preventDefault()
+    const target = document.querySelector(this.getAttribute("href"))
+    if (target) {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      })
+    }
+  })
+})
