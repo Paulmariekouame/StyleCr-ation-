@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style Créations - Vêtements Personnalisés & Robes Élégantes</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-gem me-2"></i>Style Créations
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#products">Collection</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">À Propos</a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <button class="btn btn-cart position-relative" data-bs-toggle="modal" data-bs-target="#cartModal">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="cartCount">0</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6 hero-content">
+                    <span class="badge-new">Nouvelle Collection 2025</span>
+                    <h1 class="display-2 fw-bold mb-4">Exprimez Votre Style Unique</h1>
+                    <p class="lead mb-4">Découvrez notre collection exclusive de vêtements personnalisés et de robes élégantes, créés avec passion pour sublimer votre personnalité.</p>
+                    <div class="hero-buttons">
+                        <a href="#products" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-shopping-bag me-2"></i>Découvrir
+                        </a>
+                        <a href="#about" class="btn btn-outline-dark btn-lg">
+                            En Savoir Plus
+                        </a>
+                    </div>
+                    <div class="hero-stats mt-5">
+                        <div class="row">
+                            <div class="col-4">
+                                <h3 class="fw-bold mb-0">500+</h3>
+                                <p class="text-muted small">Clients Satisfaits</p>
+                            </div>
+                            <div class="col-4">
+                                <h3 class="fw-bold mb-0">100%</h3>
+                                <p class="text-muted small">Personnalisable</p>
+                            </div>
+                            <div class="col-4">
+                                <h3 class="fw-bold mb-0">24h</h3>
+                                <p class="text-muted small">Livraison Rapide</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image-wrapper">
+                        <img src="/placeholder.svg?height=600&width=600" alt="Fashion Collection" class="img-fluid hero-image">
+                        <div class="floating-card card-1">
+                            <i class="fas fa-star text-warning"></i>
+                            <span class="ms-2">4.9/5 Avis</span>
+                        </div>
+                        <div class="floating-card card-2">
+                            <i class="fas fa-truck text-primary"></i>
+                            <span class="ms-2">Livraison Gratuite</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="text-primary text-uppercase fw-semibold">Notre Collection</span>
+                <h2 class="display-4 fw-bold mt-2 mb-3">Pièces Exclusives</h2>
+                <p class="text-muted lead">Chaque création est unique et conçue avec soin</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="text-center mb-5">
+                <div class="btn-group filter-group" role="group">
+                    <button class="btn btn-filter active" data-filter="all">Tous les Produits</button>
+                    <button class="btn btn-filter" data-filter="custom">Vêtements Personnalisés</button>
+                    <button class="btn btn-filter" data-filter="dress">Robes Élégantes</button>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="row g-4" id="productsGrid">
+                <!-- Product 1 -->
+                <div class="col-md-6 col-lg-4 product-item" data-category="custom">
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <img src="/placeholder.svg?height=500&width=400" class="product-image" alt="T-shirt Personnalisé">
+                            <div class="product-badge">Personnalisable</div>
+                            <div class="product-overlay">
+                                <button class="btn btn-light btn-sm quick-view">
+                                    <i class="fas fa-eye me-2"></i>Aperçu Rapide
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h5 class="product-title">T-shirt Premium Personnalisé</h5>
+                            <p class="product-description">100% coton bio, design sur mesure avec impression haute qualité</p>
+                            <div class="product-footer">
+                                <div class="product-price">
+                                    <span class="price-current">25€</span>
+                                </div>
+                                <button class="btn btn-add-cart add-to-cart" 
+                                        data-id="1" 
+                                        data-name="T-shirt Premium Personnalisé" 
+                                        data-price="25" 
+                                        data-image="/placeholder.svg?height=100&width=100">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="col-md-6 col-lg-4 product-item" data-category="custom">
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <img src="/placeholder.svg?height=500&width=400" class="product-image" alt="Sweat Personnalisé">
+                            <div class="product-badge">Bestseller</div>
+                            <div class="product-overlay">
+                                <button class="btn btn-light btn-sm quick-view">
+                                    <i class="fas fa-eye me-2"></i>Aperçu Rapide
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h5 class="product-title">Sweat à Capuche Personnalisé</h5>
+                            <p class="product-description">Confort optimal, broderie personnalisée incluse</p>
+                            <div class="product-footer">
+                                <div class="product-price">
+                                    <span class="price-current">45€</span>
+                                </div>
+                                <button class="btn btn-add-cart add-to-cart" 
+                                        data-id="2" 
+                                        data-name="Sweat à Capuche Personnalisé" 
+                                        data-price="45" 
+                                        data-image="/placeholder.svg?height=100&width=100">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="col-md-6 col-lg-4 product-item" data-category="dress">
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <img src="/placeholder.svg?height=500&width=400" class="product-image" alt="Robe de Soirée">
+                            <div class="product-badge badge-new">Nouveau</div>
+                            <div class="product-overlay">
+                                <button class="btn btn-light btn-sm quick-view">
+                                    <i class="fas fa-eye me-2"></i>Aperçu Rapide
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h5 class="product-title">Robe de Soirée Élégante</h5>
+                            <p class="product-description">Parfaite pour vos événements spéciaux, coupe ajustée</p>
+                            <div class="product-footer">
+                                <div class="product-price">
+                                    <span class="price-current">89€</span>
+                                </div>
+                                <button class="btn btn-add-cart add-to-cart" 
+                                        data-id="3" 
+                                        data-name="Robe de Soirée Élégante" 
+                                        data-price="89" 
+                                        data-image="/placeholder.svg?height=100&width=100">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="col-md-6 col-lg-4 product-item" data-category="dress">
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <img src="/placeholder.svg?height=500&width=400" class="product-image" alt="Robe Casual">
+                            <div class="product-badge">Tendance</div>
+                            <div class="product-overlay">
+                                <button class="btn btn-light btn-sm quick-view">
+                                    <i class="fas fa-eye me-2"></i>Aperçu Rapide
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h5 class="product-title">Robe Casual d'Été</h5>
+                            <p class="product-description">Légère et confortable, parfaite pour l'été</p>
+                            <div class="product-footer">
+                                <div class="product-price">
+                                    <span class="price-current">55€</span>
+                                </div>
+                                <button class="btn btn-add-cart add-to-cart" 
+                                        data-id="4" 
+                                        data-name="Robe Casual d'Été" 
+                                        data-price="55" 
+                                        data-image="/placeholder.svg?height=100&width=100">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="col-md-6 col-lg-4 product-item" data-category="custom">
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <img src="/placeholder.svg?height=500&width=400" class="product-image" alt="Veste Personnalisée">
+                            <div class="product-badge">Exclusif</div>
+                            <div class="product-overlay">
+                                <button class="btn btn-light btn-sm quick-view">
+                                    <i class="fas fa-eye me-2"></i>Aperçu Rapide
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h5 class="product-title">Veste Personnalisée</h5>
+                            <p class="product-description">Broderie personnalisée incluse, tissu premium</p>
+                            <div class="product-footer">
+                                <div class="product-price">
+                                    <span class="price-current">75€</span>
+                                </div>
+                                <button class="btn btn-add-cart add-to-cart" 
+                                        data-id="5" 
+                                        data-name="Veste Personnalisée" 
+                                        data-price="75" 
+                                        data-image="/placeholder.svg?height=100&width=100">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="col-md-6 col-lg-4 product-item" data-category="dress">
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <img src="/placeholder.svg?height=500&width=400" class="product-image" alt="Robe Cocktail">
+                            <div class="product-badge badge-new">Nouveau</div>
+                            <div class="product-overlay">
+                                <button class="btn btn-light btn-sm quick-view">
+                                    <i class="fas fa-eye me-2"></i>Aperçu Rapide
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h5 class="product-title">Robe Cocktail Chic</h5>
+                            <p class="product-description">Élégance et sophistication pour vos soirées</p>
+                            <div class="product-footer">
+                                <div class="product-price">
+                                    <span class="price-current">95€</span>
+                                </div>
+                                <button class="btn btn-add-cart add-to-cart" 
+                                        data-id="6" 
+                                        data-name="Robe Cocktail Chic" 
+                                        data-price="95" 
+                                        data-image="/placeholder.svg?height=100&width=100">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="/placeholder.svg?height=500&width=600" alt="Notre Atelier" class="img-fluid rounded-3 shadow-lg">
+                </div>
+                <div class="col-lg-6">
+                    <span class="text-primary text-uppercase fw-semibold">À Propos</span>
+                    <h2 class="display-5 fw-bold mt-2 mb-4">Créations Uniques, Qualité Exceptionnelle</h2>
+                    <p class="lead text-muted mb-4">Depuis plus de 10 ans, nous créons des vêtements personnalisés et des robes élégantes qui reflètent votre personnalité unique.</p>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-primary"></i>
+                            <span>Matériaux premium et durables</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-primary"></i>
+                            <span>Personnalisation complète selon vos envies</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-primary"></i>
+                            <span>Livraison rapide et soignée</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-primary"></i>
+                            <span>Service client disponible 7j/7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-shopping-bag me-2"></i>Mon Panier</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cartItems"></div>
+                    <div id="emptyCartMessage" class="text-center py-5" style="display: none;">
+                        <i class="fas fa-shopping-bag fa-4x text-muted mb-3"></i>
+                        <h5 class="text-muted">Votre panier est vide</h5>
+                        <p class="text-muted">Découvrez notre collection et ajoutez vos articles préférés</p>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 flex-column">
+                    <div class="w-100 mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Sous-total</span>
+                            <span id="cartTotal" class="fw-bold">0€</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Livraison</span>
+                            <span class="text-success fw-semibold">Gratuite</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <span class="h5 mb-0">Total</span>
+                            <span class="h5 mb-0 text-primary" id="cartTotalFinal">0€</span>
+                        </div>
+                    </div>
+                    <div class="w-100 d-flex gap-2">
+                        <button type="button" class="btn btn-outline-secondary flex-fill" data-bs-dismiss="modal">Continuer mes achats</button>
+                        <button type="button" class="btn btn-primary flex-fill" id="checkoutBtn">
+                            <i class="fas fa-credit-card me-2"></i>Commander
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-clipboard-check me-2"></i>Finaliser la Commande</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="checkout-section">
+                                <h6 class="section-title mb-4">
+                                    <i class="fas fa-box me-2"></i>Récapitulatif de votre commande
+                                </h6>
+                                <div id="checkoutSummary" class="mb-4"></div>
+                                
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Étape suivante :</strong> Cliquez sur "Procéder au paiement" pour remplir vos informations de livraison et finaliser votre commande.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card border-0 shadow-sm sticky-top" style="top: 20px;">
+                                <div class="card-body">
+                                    <h6 class="fw-bold mb-3">Résumé</h6>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Sous-total</span>
+                                        <span id="subtotal">0€</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Livraison</span>
+                                        <span class="text-success">Gratuite</span>
+                                    </div>
+                                    <hr>
+                                    <div class="d-flex justify-content-between mb-4">
+                                        <strong>Total</strong>
+                                        <strong class="text-primary h5 mb-0" id="checkoutTotal">0€</strong>
+                                    </div>
+                                    <button type="button" class="btn btn-primary w-100 btn-lg" id="proceedToPaymentBtn">
+                                        <i class="fas fa-arrow-right me-2"></i>Procéder au Paiement
+                                    </button>
+                                    <div class="text-center mt-3">
+                                        <small class="text-muted">
+                                            <i class="fas fa-lock me-1"></i>Paiement 100% sécurisé
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-body text-center py-5">
+                    <div class="success-icon mb-4">
+                        <i class="fas fa-check-circle text-success"></i>
+                    </div>
+                    <h3 class="fw-bold mb-3">Commande Enregistrée !</h3>
+                    <p class="text-muted mb-4">Votre reçu PDF a été généré avec succès. Vous allez être redirigé vers le formulaire de paiement.</p>
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Chargement...</span>
+                    </div>
+                    <p class="small text-muted">Redirection en cours...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-body text-center py-5 px-4">
+                    <div class="confirmation-icon mb-4">
+                        <i class="fas fa-check-circle text-success"></i>
+                    </div>
+                    <h2 class="fw-bold mb-3">Merci pour votre commande !</h2>
+                    <p class="lead text-muted mb-4">Votre commande a été enregistrée avec succès.</p>
+                    
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <div class="info-card">
+                                <div class="info-icon">
+                                    <i class="fas fa-clock text-primary"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Confirmation</h5>
+                                <p class="text-muted mb-0">Votre commande sera confirmée dans les <strong class="text-primary">24 heures</strong></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-card">
+                                <div class="info-icon">
+                                    <i class="fas fa-shipping-fast text-success"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Livraison</h5>
+                                <p class="text-muted mb-0">Livraison estimée sous <strong class="text-success">3 jours ouvrables</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mb-4">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Vous recevrez un email de confirmation avec les détails de votre commande et le suivi de livraison.
+                    </div>
+
+                    <div class="d-flex gap-3 justify-content-center">
+                        <button type="button" class="btn btn-primary btn-lg" data-bs-dismiss="modal">
+                            <i class="fas fa-home me-2"></i>Retour à l'accueil
+                        </button>
+                        <a href="#products" class="btn btn-outline-primary btn-lg" data-bs-dismiss="modal">
+                            <i class="fas fa-shopping-bag me-2"></i>Continuer mes achats
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-gem me-2"></i>Style Créations</h5>
+                    <p class="text-muted">Votre destination pour des vêtements personnalisés et des robes élégantes de qualité exceptionnelle.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h6 class="fw-bold mb-3">Liens Rapides</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#products" class="text-muted text-decoration-none">Collection</a></li>
+                        <li class="mb-2"><a href="#about" class="text-muted text-decoration-none">À Propos</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Livraison</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Retours</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h6 class="fw-bold mb-3">Contact</h6>
+                    <ul class="list-unstyled text-muted">
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i>contact@stylecreations.com</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i>+33 1 23 45 67 89</li>
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i>Paris, France</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-secondary">
+            <div class="text-center text-muted">
+                <p class="mb-0">&copy; 2025 Style Créations. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>
